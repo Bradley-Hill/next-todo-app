@@ -36,7 +36,7 @@ export async function changeStatus(formData: FormData) {
   return updatedStatus;
 }
 
-export async function edit(formData) {
+export async function edit(formData: FormData) {
   const input = formData.get("newTitle") as string;
   const inputId = formData.get("inputId") as string;
 
@@ -48,5 +48,17 @@ export async function edit(formData) {
       title: input,
     },
   });
+  revalidatePath("/");
+}
+
+export async function deleteTodo(formData: FormData) {
+  const inputId = formData.get("inputId") as string;
+
+  await prisma.todo.delete({
+    where: {
+      id: inputId,
+    },
+  });
+
   revalidatePath("/");
 }
