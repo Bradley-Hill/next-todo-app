@@ -6,6 +6,10 @@ import { prisma } from "@/utils/prisma";
 export async function create(formData: FormData) {
   const input = formData.get("input") as string;
 
+  if (!input.trim()) {
+    return;
+  }
+
   await prisma.todo.create({ data: { title: input } });
 
   revalidatePath("/");
